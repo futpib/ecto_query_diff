@@ -34,6 +34,13 @@ defmodule EctoQueryDiffTest do
     assert EctoQueryDiff.diff(a, b) === %{changed: :equal, value: EctoQueryDiff.plan_normalize(a)}
   end
 
+  test "equal queries, diff planned & normalized" do
+    a = User |> where(email: "foo@bar") |> EctoQueryDiff.plan_normalize()
+    b = from(user in User, where: user.email == "foo@bar") |> EctoQueryDiff.plan_normalize()
+
+    assert EctoQueryDiff.diff(a, b) === %{changed: :equal, value: EctoQueryDiff.plan_normalize(a)}
+  end
+
   test "queries with different params" do
     email_a = "a@bar"
     email_b = "b@bar"

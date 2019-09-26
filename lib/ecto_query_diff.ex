@@ -26,7 +26,9 @@ defmodule EctoQueryDiff do
     MapDiff.diff(a, b)
   end
 
-  def plan_normalize(query, opts \\ []) do
+  def plan_normalize(_query, _opts \\ [])
+
+  def plan_normalize(%Ecto.Query{} = query, opts) do
     operation = Keyword.get(opts, :operation, :all)
     adapter = Keyword.get(opts, :adapter, Ecto.Adapters.Postgres)
     counter = Keyword.get(opts, :counter, 0)
@@ -40,6 +42,10 @@ defmodule EctoQueryDiff do
       |> walk_map(&workaround_nil_params/1)
 
     keys(%{ query, params })
+  end
+
+  def plan_normalize(%{ query: %Ecto.Query{}, params: _params } = query, _opts) do
+    query
   end
 
   defp walk_map(%Ecto.Query{} = query, f) do
