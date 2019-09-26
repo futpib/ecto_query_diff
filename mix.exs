@@ -7,6 +7,10 @@ defmodule EctoQueryDiff.MixProject do
       version: "0.1.0",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
+
+      description: description(),
+      package: package(),
+
       deps: deps()
     ]
   end
@@ -15,6 +19,17 @@ defmodule EctoQueryDiff.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp description() do
+    "Diff Ecto Queries"
+  end
+
+  defp package do
+    [
+      licenses: ["Apache-2.0"],
+      links: %{"GitHub" => "https://github.com/futpib/ecto_query_diff"},
     ]
   end
 
